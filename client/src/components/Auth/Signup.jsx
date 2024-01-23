@@ -5,27 +5,132 @@ import { VStack } from '@chakra-ui/layout';
 import { useToast } from '@chakra-ui/toast';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { instance } from '../../axios/index.js';
 
 
 const Signup = () => {
   const [show, setShow] = useState(false);
   const toast = useToast();
-  const history = useNavigate();
+  const navigate = useNavigate();
 
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [confirmpassword, setConfirmpassword] = useState('');
-  const [password, setPassword] = useState('');
+  const [name, setName] = useState('john');
+  const [email, setEmail] = useState('john@john.com');
+  const [confirmpassword, setConfirmpassword] = useState('12345678');
+  const [password, setPassword] = useState('12345678');
   const [pic, setPic] = useState('');
   const [picLoading, setPicLoading] = useState(false);
 
   const handleClick = () => setShow(!show);
   const submitHandler = async () => {
+    setPicLoading(true);
+    if (!name || !email || !password || !confirmpassword) {
+      toast({
+        title: 'Please Fill all the Feilds',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
+      setPicLoading(false);
+      return;
+    }
+    if (password !== confirmpassword) {
+      toast({
+        title: 'Passwords Do Not Match',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
+      return;
+    }
+    console.log(name, email, password, pic);
+    try {
+      const config = {
+        headers: {
+          'Content-type': 'application/json',
+          'Access-Control-Allow-Origin': 'http://localhost:5173',
+        },
+
+      };
+      const { data } = await instance.post(
+        '/api/user',
+        {
+          name,
+          email,
+          password,
+          pic,
+        },
+        config,
+      );
+      console.log(data);
+      toast({
+        title: 'Registration Successful',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
+      localStorage.setItem('userInfo', JSON.stringify(data));
+      setPicLoading(false);
+      navigate('/chats');
+    } catch (error) {
+      toast({
+        title: 'Error Occured!',
+        description: error.response.data.message,
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
+      setPicLoading(false);
+    }
   };
   const postDetails = (pics) => {
-    
-  }
+    setPicLoading(true);
+    if (pics === undefined) {
+      toast({
+        title: 'Please Select an Image!',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
+    }
+
+    if (pics.type === 'image/jpeg' || pics.type === 'image/png') {
+      const data = new FormData();
+      data.append('file', pics);
+      data.append('upload_preset', 'chat-app');
+      data.append('cloud_name', 'damcunqx4');
+      fetch('https://api.cloudinary.com/v1_1/damcunqx4', {
+        method: 'POST',
+        body: data,
+        mode: 'no-cors',
+        // headers: {
+        //   "Access-Control-Allow-Origin": '*'
+        // }
+      })
+        .then(res => res.json())
+        .then(data => {
+          setPic(data.url.toString());
+          setPicLoading(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setPicLoading(false);
+        });
+    } else {
+      toast({
+        title: 'Please Select an Image!',
+        status: 'warning',
+        duration: 5000,
+        isClosable: true,
+        position: 'bottom',
+      });
+      setPicLoading(false);
+    }
+  };
   return (
     <VStack spacing="5px">
       <FormControl id="first-name" isRequired>

@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { instance } from '../axios/index.js';
 
 export const ChatPage = () => {
   const [chats, setChats] = useState([]);
   const fetchChats = async () => {
-    const { data } = await axios.get('http://localhost:5500/api/chat');
+    const { data } = await instance.get('api/chat');
     setChats(data);
   };
 
