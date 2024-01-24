@@ -114,11 +114,14 @@ const SideDrawer = () => {
   };
 
   return (<>
-    <Box style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
-         bg="white"
-         w="100%"
-         p="5px 10px 5px 10px"
-         borderWidth="5px">
+    <Box
+      display={'flex'}
+      justifyContent={'space-between'}
+      alignItems={'center'}
+      bg="white"
+      w="100%"
+      p="5px 10px 5px 10px"
+      borderWidth="5px">
       <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
         <Button variant="ghost" onClick={onOpen}>
           <i className="fas fa-search"></i>
@@ -129,7 +132,7 @@ const SideDrawer = () => {
         </Button>
       </Tooltip>
       <Text fontSize="2xl" fontFamily="Work sans">
-        Talk-A-Tive
+        MERN Chat App
       </Text>
       <div>
         <Menu>

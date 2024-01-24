@@ -1,11 +1,13 @@
 import { Box } from '@chakra-ui/react';
 import { ChatState } from '../context/ChatProvider.jsx';
+// import './style.css';
+import SingleChat from './SingleChat.jsx';
 
 const ChatBox = ({ fetchAgain, setFetchAgain }) => {
   const { selectedChat } = ChatState();
   return (
     <Box
-      d={{ base: selectedChat ? 'flex' : 'none', md: 'flex' }}
+      display={{ base: selectedChat ? 'flex' : 'none', md: 'flex' }}
       alignItems="center"
       flexDir="column"
       p={3}
@@ -14,8 +16,7 @@ const ChatBox = ({ fetchAgain, setFetchAgain }) => {
       borderRadius="lg"
       borderWidth="1px"
     >
-      {/*<SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />*/}
-      Selected chat
+      <SingleChat fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
     </Box>
   );
 };

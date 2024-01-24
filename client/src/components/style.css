@@ -1,0 +1,7 @@
+.flex {
+    display: flex;
+}
+
+.not-display {
+    display: none;
+}

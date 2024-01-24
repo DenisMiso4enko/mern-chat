@@ -8,6 +8,7 @@ import { AddIcon } from '@chakra-ui/icons';
 import { Button } from '@chakra-ui/button';
 import { Stack } from '@chakra-ui/layout';
 import { getSender } from '../config/ChatLogics.js';
+import { GroupChatModel } from './GroupChatModel.jsx';
 
 
 const MyChats = ({ fetchAgain }) => {
@@ -45,7 +46,7 @@ const MyChats = ({ fetchAgain }) => {
   }, [fetchAgain]);
   return (
     <Box
-      d={{ base: selectedChat ? 'none' : 'flex', md: 'flex' }}
+      display={{ base: selectedChat ? 'none' : 'flex', md: 'flex' }}
       flexDir="column"
       alignItems="center"
       p={3}
@@ -55,23 +56,23 @@ const MyChats = ({ fetchAgain }) => {
       borderWidth="1px"
     >
       <Box
+        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
         pb={3}
         px={3}
         fontSize={{ base: '28px', md: '30px' }}
         fontFamily="Work sans"
-        d="flex"
         w="100%"
-        justifyContent="space-between"
-        alignItems="center"
       >
         My Chats
-        <Button
-          d="flex"
-          fontSize={{ base: '17px', md: '10px', lg: '17px' }}
-          rightIcon={<AddIcon />}
-        >
-          New Group Chat
-        </Button>
+        <GroupChatModel>
+          <Button
+            d="flex"
+            fontSize={{ base: '17px', md: '10px', lg: '17px' }}
+            rightIcon={<AddIcon />}
+          >
+            New Group Chat
+          </Button>
+        </GroupChatModel>
       </Box>
       <Box
         d="flex"
