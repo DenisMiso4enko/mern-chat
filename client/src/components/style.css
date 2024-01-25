@@ -1,7 +1,6 @@
-.flex {
+.messages {
     display: flex;
-}
-
-.not-display {
-    display: none;
+    flex-direction: column;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
